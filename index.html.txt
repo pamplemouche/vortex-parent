@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <script>
+    (function(m,o,b,s,t,e,d){
+      m[t]=m[t]||{},e=o.createElement(b),d=o.getElementsByTagName(b)[0],
+        e.async=1,e.src=s,d.parentNode.insertBefore(e,d)
+    })(window,document,"script","https://cdn.mobsted.com/pwaless.js","pwaless");
+    pwaless.config = {
+      accountId: "ab590a12",
+      server: "mobsted.com",
+      projectId: 16
+    }
+</script>
+  <head>
+    <title>Salut</title>
+  </head>
+<body>
+  <nav style="display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: #f5f5f5; border-bottom: 1px solid #ddd;">
+    <div>
+      <!-- Ajoute ici ton logo principal ou le nom du site si besoin -->
+      <span style="font-weight: bold; font-size: 1.2em;">Vortex Student</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <!-- Logo à droite -->
+      <img src="ton-logo.png" alt="Logo" style="height: 32px;">
+      <!-- Chiffre dynamique -->
+      <span id="monChiffre" style="font-weight: bold; color: #333;">0</span>
+    </div>
+  </nav>
+<script>
+  // Affiche le chiffre stocké (ou 0 si absent)
+  fetch('https://script.google.com/macros/s/AKfycbzVXns6_1tCoWAR9FZpQ7FJA1Y2G0Uw30xqOMHylETt17i4JyWt-dD6-xccpmS6AHIc/exec')
+  .then(response => response.text())
+  .then(value => {
+    document.getElementById('monChiffre').textContent = value;
+    localStorage.setItem('monChiffre', value); // Mets à jour localStorage si tu veux
+  });
+
+  // Optionnel : mets à jour dynamiquement si la page reste ouverte pendant le changement sur l’autre page
+function sauvegarderMonChiffre(nouveauChiffre) {
+  fetch('https://script.google.com/macros/s/AKfycbzVXns6_1tCoWAR9FZpQ7FJA1Y2G0Uw30xqOMHylETt17i4JyWt-dD6-xccpmS6AHIc/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'value=' + encodeURIComponent(nouveauChiffre)
+  })
+  .then(response => response.text())
+  .then(result => {
+    // Optionnel: notifier l'utilisateur que c'est sauvegardé
+    console.log('Sauvegardé !');
+  });
+}
+</script>
+  <script>
+    // Au chargement, récupère la valeur sauvegardée côté Apps Script
+fetch('https://script.google.com/macros/s/AKfycbzVXns6_1tCoWAR9FZpQ7FJA1Y2G0Uw30xqOMHylETt17i4JyWt-dD6-xccpmS6AHIc/exec')
+  .then(r => r.text())
+  .then(value => {
+    document.getElementById('monChiffre').textContent = value;
+    localStorage.setItem('monChiffre', value);
+  });
+
+// Pour sauvegarder (par exemple quand tu cliques sur un bouton)
+function updateChiffre(nouveauChiffre) {
+  sauvegarderMonChiffre(nouveauChiffre);
+  document.getElementById('monChiffre').textContent = nouveauChiffre;
+  localStorage.setItem('monChiffre', nouveauChiffre);
+}
+  </script>
+</body>
+</html>
